@@ -216,3 +216,52 @@ describe "BookRepository", :book do
     end
   end
 end
+
+describe "BooksController", :book do
+  let(:books) do
+    [
+      ["id", "title", "author", "genre", "description", "isbn"],
+      [ 1, "Title 1", "Author 1", "Genre 1", "description text for title 1", 9780575094185],
+      [ 2, "Title 2", "Author 2", "Genre 2", "description text for title 2", 9780575094186],
+      [ 3, "Title 3", "Author 3", "Genre 3", "description text for title 3", 9780575094187]
+    ]
+  end
+  let(:csv_path) { "spec/support/books.csv" }
+  let(:repository) { BookRepository.new(csv_path) }
+
+  before(:each) do
+    CsvHelper.write_csv(csv_path, books)
+  end
+
+  it "Should be initialized with a `BookRepository` instance" do
+    controller = BooksController.new(repository)
+    expect(controller).to be_a(BooksController)
+  end
+
+  describe "#add" do
+    it "Should ask the user for book details, and then store the new book" do
+      controller = BooksController.new(repository)
+
+      allow_any_instance_of(Object).to receive(:gets).and_return("13")
+      controller.add
+
+      expect(repository.all.length).to eq(4)
+      expect(repository.all[3].title).to eq("13")
+      expect(repository.all[3].author).to eq("13")
+      expect(repository.all[3].genre).to eq("13")
+      expect(repository.all[3].description).to eq("13")
+      expect(repository.all[3].isbn).to eq(13)
+    end
+  end
+
+  describe "#list" do
+    it "Should retrieve books from the repository and display them" do
+      controller = BooksController.new(repository)
+      books.drop(1).each do |book_array|
+        expect(STDOUT).to receive(:puts).with(/#{book_array[1]}/)
+      end
+
+      controller.list
+    end
+  end
+end
