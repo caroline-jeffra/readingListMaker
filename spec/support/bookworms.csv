@@ -1,0 +1,4 @@
+id,username,password,role
+1,paulAtreides,secret,manager
+2,ladyJessica,secret,subscriber
+3,gurney,secret,subscriber
