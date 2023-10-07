@@ -1,6 +1,4 @@
-id,name,price
-1,Margherita,8
-2,Capricciosa,11
-3,Napolitana,9
-4,Funghi,12
-5,Calzone,10
+id,title,author,genre,description,isbn
+1,Title 1,Author 1,Genre 1,description text for title 1,9780575094185
+2,Title 2,Author 2,Genre 2,description text for title 2,9780575094186
+3,Title 3,Author 3,Genre 3,description text for title 3,9780575094187
