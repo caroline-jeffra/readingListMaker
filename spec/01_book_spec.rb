@@ -91,8 +91,8 @@ describe "BookRepository", :book do
   end
 
   def elements(repo)
-    repo.instance_variable_get(:books) ||
-      repo.instance_variable_get(:elements)
+    repo.instance_variable_get(:@books) ||
+      repo.instance_variable_get(:@elements)
   end
 
   describe "#initialize" do
@@ -165,6 +165,7 @@ describe "BookRepository", :book do
       csv_path = "spec/support/empty_books.csv"
       FileUtils.remove_file(csv_path, force: true)
 
+      repo = BookRepository.new(csv_path)
       silly_book = Book.new(title: "Japes for the Genteel", author: "Bertie Worcester", genre: "Comedy", description: "What a silly book this is", isbn: 21345678910)
       repo.create(silly_book)
 
@@ -181,7 +182,7 @@ describe "BookRepository", :book do
       repo.create(serious_book)
       expect(serious_book.id).to eq(2)
 
-      repo = MealRepository.new(csv_path)
+      repo = BookRepository.new(csv_path)
       expect(repo.all.length).to eq(2)
       expect(repo.all[1].title).to eq("Topics for Serious Thought")
       expect(repo.all[1].author).to eq("Leo Tolstoy")

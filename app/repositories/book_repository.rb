@@ -26,6 +26,11 @@ class BookRepository
     save_csv
   end
 
+  def destroy(book_index)
+    @books.delete_at(book_index)
+    save_csv
+  end
+
   def save_csv
     CSV.open(@csv_file, "wb", :write_headers => true, :headers => ["id", "title", "author", "genre", "description", "isbn"]) do |row|
       @books.each do |book|
