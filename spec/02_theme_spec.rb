@@ -4,6 +4,7 @@ require_relative "support/csv_helper"
 begin
   require_relative "../app/models/theme"
   require_relative "../app/repositories/theme_repository"
+  require_relative "../app/controllers/themes_controller"
 rescue => exception
   raise e
 end
@@ -170,9 +171,55 @@ describe "ThemeRepository", :theme do
   describe "#find" do
     it "should retrieve a specific theme based on its id" do
       repo = ThemeRepository.new(csv_path)
-      theme = repo.find(2)
-      expect(theme.id).to eq(2)
+      theme = repo.find(3)
+      expect(theme.id).to eq(3)
       expect(theme.name).to eq("theme 3")
+    end
+  end
+end
+
+describe "ThemeController", :theme do
+  let(:themes) do
+    [
+      [ "id", "name", "description" ],
+      [ 1, "theme 1", "A nice little theme with cool books in it" ],
+      [ 2, "theme 2", "A nice little theme with cool books in it" ],
+      [ 3, "theme 3", "A nice little theme with cool books in it" ]
+    ]
+  end
+  let(:csv_path) { "spec/support/themes.csv" }
+  let(:repository) { ThemeRepository.new(csv_path) }
+
+  before(:each) do
+    CsvHelper.write_csv(csv_path, themes)
+  end
+
+  it "Should be initialized with a `ThemeRepository` instance" do
+    controller = ThemesController.new(repository)
+    expect(controller).to be_a(ThemesController)
+  end
+
+  describe "#add" do
+    it "Should ask the user for a name and description, then store the new theme" do
+      controller = ThemesController.new(repository)
+      allow_any_instance_of(Object).to receive(:gets).and_return("new theme")
+
+      controller.add
+
+      expect(repository.all.length).to eq(4)
+      expect(repository.all[3].name).to eq("new theme")
+      expect(repository.all[3].description).to eq("new theme")
+    end
+  end
+
+  describe "#list" do
+    it "Should grab themes from the repo and display them" do
+      controller = ThemesController.new(repository)
+      themes.drop(1).each do |theme_array|
+        expect(STDOUT).to receive(:puts).with(/#{theme_array[1]}/)
+      end
+
+      controller.list
     end
   end
 end
