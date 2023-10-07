@@ -3,6 +3,7 @@ require_relative "support/csv_helper"
 
 begin
   require_relative "../app/models/bookworm"
+  require_relative "../app/repositories/bookworm_repository"
 rescue => exception
   raise e
 end
@@ -104,7 +105,7 @@ describe "BookwormRepository", :bookworm do
       expect { BookwormRepository.new("fake_file.csv") }.not_to raise_error
     end
 
-    it "Should store bookworms in memory in an instance variable `@bookworms` or `@elements`" do
+    it "Should store bookworms in memory in an instance variable `@bookworms`" do
       repo = BookwormRepository.new(csv_path)
       expect(elements(repo)).to be_a(Array)
     end
