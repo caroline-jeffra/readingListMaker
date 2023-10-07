@@ -19,6 +19,21 @@ class BookRepository
     end
   end
 
+  def create(book)
+    book.id = @next_id
+    @next_id += 1
+    @books << book
+    save_csv
+  end
+
+  def save_csv
+    CSV.open(@csv_file, "wb", :write_headers => true, :headers => ["id", "title", "author", "genre", "description", "isbn"]) do |row|
+      @books.each do |book|
+        row << [book.id, book.title, book.author, book.genre, book.description, book.isbn]
+      end
+    end
+  end
+
   def load_csv
     if File.exist?(@csv_file)
       CSV.foreach(@csv_file, headers: :first_row, header_converters: :symbol) do |row|
