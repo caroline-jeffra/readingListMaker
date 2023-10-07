@@ -1,7 +1,7 @@
 class BookView
   def display_list(books)
     books.each_with_index do |book, index|
-      puts "#{index + 1} - #{book.name}"
+      puts "#{index + 1} - #{book.title}"
     end
   end
 
@@ -19,7 +19,7 @@ class BookView
     description = gets.chomp
 
     puts "Book ISBN: "
-    isbn = gets.chomp
+    isbn = gets.chomp.to_i
 
     return { title: title, author: author, genre: genre, description: description, isbn: isbn}
   end
@@ -43,7 +43,7 @@ class BookView
     description = gets.chomp
 
     puts "Correct book ISBN: "
-    isbn = gets.chomp
+    isbn = gets.chomp.to_i
 
     return { title: title, author: author, genre: genre, description: description, isbn: isbn}
   end
