@@ -13,6 +13,12 @@ class BookRepository
     return @books
   end
 
+  def find(book_id)
+    @books.each do |book|
+      return book if book.id == book_id
+    end
+  end
+
   def load_csv
     if File.exist?(@csv_file)
       CSV.foreach(@csv_file, headers: :first_row, header_converters: :symbol) do |row|

@@ -209,7 +209,7 @@ describe "BookRepository", :book do
   describe "#find" do
     it "Should retrieve a specific book based on its id" do
       repo = BookRepository.new(csv_path)
-      book = book.find(2)
+      book = repo.find(2)
       expect(book.id).to eq(2)
       expect(book.title).to eq("Title 2")
     end
