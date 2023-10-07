@@ -46,7 +46,7 @@ describe "Book", :book do
   describe "#author" do
     it "Should return the name of the author" do
       book = Book.new({ author: "Philip K. Dick" })
-      expect(book.name).to eq("Philip K. Dick")
+      expect(book.author).to eq("Philip K. Dick")
     end
   end
 
