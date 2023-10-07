@@ -197,7 +197,7 @@ describe "BookRepository", :book do
     it "Should return all the books stored by the repo" do
       repo = BookRepository.new(csv_path)
       expect(repo.all).to be_a(Array)
-      expect(repo.all[0].name).to eq("Title 1")
+      expect(repo.all[0].title).to eq("Title 1")
     end
 
     it "BookRepository should not expose the @books through a reader/method" do
