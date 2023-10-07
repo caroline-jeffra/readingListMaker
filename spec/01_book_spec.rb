@@ -1,5 +1,5 @@
 begin
-  require_relative "../app/models/meal"
+  require_relative "../app/models/book"
   require_relative "../app/controllers/books_controller"
   require_relative "../app/repositories/book_repository"
   require_relative "../app/views/book_view"
@@ -47,6 +47,20 @@ describe "Book", :book do
     it "Should return the name of the author" do
       book = Book.new({ author: "Philip K. Dick" })
       expect(book.name).to eq("Philip K. Dick")
+    end
+  end
+
+  describe "#genre" do
+    it "Should return the genre" do
+      book = Book.new({ genre: "Science Fiction" })
+      expect(book.genre).to eq("Science Fiction")
+    end
+  end
+
+  describe "#description" do
+    it "Should return the description" do
+      book = Book.new({ description: "Set in the fictional world of Earthsea, The Tombs of Atuan follows the story of Tenar, a young girl born in the Kargish empire, who is taken while still a child to be the high priestess to the 'Nameless Ones' at the Tombs of Atuan." })
+      expect(book.description).to eq("Set in the fictional world of Earthsea, The Tombs of Atuan follows the story of Tenar, a young girl born in the Kargish empire, who is taken while still a child to be the high priestess to the 'Nameless Ones' at the Tombs of Atuan.")
     end
   end
 
