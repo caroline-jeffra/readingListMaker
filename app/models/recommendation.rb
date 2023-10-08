@@ -1,4 +1,4 @@
-class Group
+class Recommendation
   attr_accessor :id
   attr_reader :book, :theme, :bookworm
 
