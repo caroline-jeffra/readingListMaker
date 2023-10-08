@@ -14,9 +14,7 @@ class ThemeRepository
   end
 
   def find(theme_id)
-    @themes.each do |theme|
-      return theme if theme.id == theme_id
-    end
+    @themes.find { |theme| theme.id == theme_id }
   end
 
   def create(theme)

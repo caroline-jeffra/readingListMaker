@@ -25,8 +25,8 @@ class RecommendationRepository
     @recommendations.reject { |recommendation| recommendation.read? }
   end
 
-  def my_unread_recommendations(subscriber)
-    unread_recommendations.select { |recommendation| recommendation.bookworm == subscriber }
+  def my_unread_recommendations(bookworm)
+    unread_recommendations.select { |recommendation| recommendation.bookworm == bookworm && !recommendation.read? }
   end
 
   def update_mark(recommendation)
@@ -50,15 +50,10 @@ class RecommendationRepository
 
   # this method is failing a test - undefined method error for recommendation.book.title
   def save_csv
-    headers_array = ["id", "book_id", "theme_id", "bookworm_id", "read"]
-    CSV.open(@recommendations_csv, "wb", :write_headers => true, :headers => headers_array) do |row|
+    CSV.open(@recommendations_csv, "wb") do |row|
+      row << %w[id book_id theme_id bookworm_id read]
       @recommendations.each do |recommendation|
-        id = recommendation.id
-        book_id = recommendation.book.id
-        theme_id = recommendation.theme.id
-        bookworm_id = recommendation.bookworm.id
-        read = recommendation.read?
-        row << [id, book_id, theme_id, bookworm_id, read]
+        row << [recommendation.id, recommendation.book.id, recommendation.theme.id, recommendation.bookworm.id, recommendation.read?]
       end
     end
   end

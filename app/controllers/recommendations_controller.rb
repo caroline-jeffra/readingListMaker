@@ -17,20 +17,9 @@ class RecommendationsController
   end
 
   def add
-    books = @book_repository.all
-    @books_view.display_list(books)
-    book_id = @recommendations_view.ask_index
-    book = books[book_id]
-
-    themes = @theme_repository.all
-    @themes_view.display_list(themes)
-    theme_id = @recommendations_view.ask_index
-    theme = themes[theme_id]
-
-    bookworms = @bookworm_repository.all_subscribers
-    @sessions_view.display_subscribers(bookworms)
-    bookworm_id = @recommendations_view.ask_index
-    bookworm = bookworms[bookworm_id]
+    book = select_book
+    theme = select_theme
+    bookworm = select_bookworm
 
     recommendation = Recommendation.new(book: book, theme: theme, bookworm: bookworm)
     @recommendation_repository.create(recommendation)
@@ -41,22 +30,46 @@ class RecommendationsController
     @recommendations_view.display(recommendations)
   end
 
-  def list_my_recommendations(subscriber)
-    display_unread(subscriber)
+  def list_my_recommendations(current_user)
+    display_unread(current_user)
   end
 
-  def mark_as_read(subscriber)
-    recommendations = display_unread(subscriber)
+  def mark_as_read(current_user)
+    list_unread_recommendations
     index = @recommendations_view.ask_index
-    recommendation = recommendations[index]
+    my_recommendations = @recommendation_repository.my_unread_recommendations(current_user)
+    recommendation = my_recommendations[index]
     @recommendation_repository.update_mark(recommendation)
   end
 
   private
 
-  def display_unread(subscriber)
-    recommendations = @recommendation_repository.my_unread_recommendations(subscriber)
-    @recommendations_view.display(recommendations)
-    return recommendations
+  def select_book
+    books = @book_repository.all
+    @books_view.display_list(books)
+    index = @recommendations_view.ask_index
+    puts books[index]
+    return books[index]
+  end
+
+  def select_theme
+    themes = @theme_repository.all
+    @themes_view.display_list(themes)
+    index = @recommendations_view.ask_index
+    puts themes[index]
+    return themes[index]
+  end
+
+  def select_bookworm
+    bookworms = @bookworm_repository.all_subscribers
+    @sessions_view.display_subscribers(bookworms)
+    index = @recommendations_view.ask_index
+    bookworms[index]
+    return bookworms[index]
+  end
+
+  def display_unread(user)
+    recommendations = @recommendation_repository.my_unread_recommendations(user)
+    return @recommendations_view.display(recommendations)
   end
 end

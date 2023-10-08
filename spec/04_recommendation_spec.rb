@@ -291,8 +291,8 @@ describe "RecommendationsController", :_recommendation do
       [ 1, "Title 1", "Author 1", "Genre 1", "description text for title 1", 9780575094185],
       [ 2, "Title 2", "Author 2", "Genre 2", "description text for title 2", 9780575094186],
       [ 3, "Title 3", "Author 3", "Genre 3", "description text for title 3", 9780575094187],
-      [ 2, "Title 4", "Author 2", "Genre 2", "description text for title 4", 9780575094286],
-      [ 3, "Title 5", "Author 3", "Genre 3", "description text for title 5", 9780575094387]
+      [ 4, "Title 4", "Author 2", "Genre 2", "description text for title 4", 9780575094286],
+      [ 5, "Title 5", "Author 3", "Genre 3", "description text for title 5", 9780575094387]
     ]
   end
   let(:books_csv_path) { "spec/support/books.csv" }
@@ -352,7 +352,7 @@ describe "RecommendationsController", :_recommendation do
       controller.add
 
       expect(recommendation_repository.unread_recommendations.length).to eq(4)
-      expect(recommendation_repository.unread_recommendations[3].book.title).to eq("Title 3")
+      expect(recommendation_repository.unread_recommendations[3].book.title).to eq("Title 2")
       expect(recommendation_repository.unread_recommendations[3].bookworm.username).to eq("gurney")
       expect(recommendation_repository.unread_recommendations[3].theme.name).to eq("theme 2")
     end

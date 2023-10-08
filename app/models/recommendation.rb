@@ -4,10 +4,10 @@ class Recommendation
 
   def initialize(attrs = {})
     @id = attrs[:id]
-    @read = attrs[:read] || false
     @book = attrs[:book]
     @theme = attrs[:theme]
     @bookworm = attrs[:bookworm]
+    @read = attrs[:read] || false
   end
 
   def read?

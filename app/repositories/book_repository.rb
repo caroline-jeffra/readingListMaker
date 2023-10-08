@@ -14,9 +14,7 @@ class BookRepository
   end
 
   def find(book_id)
-    @books.each do |book|
-      return book if book.id == book_id
-    end
+    @books.find { |book| book.id == book_id }
   end
 
   def create(book)
@@ -30,6 +28,8 @@ class BookRepository
     @books.delete_at(book_index)
     save_csv
   end
+
+  private
 
   def save_csv
     CSV.open(@csv_file, "wb", :write_headers => true, :headers => ["id", "title", "author", "genre", "description", "isbn"]) do |row|

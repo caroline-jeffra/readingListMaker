@@ -19,4 +19,8 @@ class SessionView
       puts "#{i + 1} - #{subscriber.username}"
     end
   end
+
+  def wrong_credentials
+    puts "Wrong credentials! Please try again."
+  end
 end
